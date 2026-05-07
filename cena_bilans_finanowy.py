@@ -121,17 +121,21 @@ def setup_axes():
 
 def choose_columns(series_df):
     """Wybiera domyślne kolumny dla górnego i dolnego wykresu."""
-    top_candidates = [['Value [W]', 'Pred [W]'], ['Value', 'Pred']]
+    top_candidates = [['Cena', 'Wynik'], ['Cena', 'Wynik']]
     bot_candidates = [['Moc [W]', 'Moc Pred [W]'], ['Moc', 'Moc Pred']]
 
     # Górny wykres
     top_cols = None
     for cand in top_candidates:
         top_cols = [c for c in cand if c in series_df.columns]
+        print("Dostępne kolumny")
+        print(series_df.columns)
+        print(top_cols)
         if top_cols:
             break
-    if not top_cols:  # fallback: dwie pierwsze kolumny, jeśli są
-        top_cols = list(series_df.columns[:2]) if len(series_df.columns) >= 2 else list(series_df.columns[:1])
+    # if not top_cols:  # fallback: dwie pierwsze kolumny, jeśli są
+    #     print("Brak kolumny 'Cena' – używam pierwszych dostępnych kolumn:", series_df.columns[:2])
+    #     top_cols = list(series_df.columns[:2]) if len(series_df.columns) >= 2 else list(series_df.columns[:1])
 
     # Dolny wykres
     bottom_cols = None
@@ -152,16 +156,16 @@ def detect_pred_column(series_df, top_cols, bottom_cols):
     pred_like = [c for c in series_df.columns if 'pred' in c.lower()]
 
     pred_top = None
-    if 'Pred [W]' in series_df.columns:
-        pred_top = 'Pred [W]'
-    else:
-        # wybierz pierwszą kolumnę pred, która nie zawiera 'moc'
-        for c in pred_like:
-            if 'moc' not in c.lower():
-                pred_top = c
-                break
-        if pred_top is None and pred_like:
-            pred_top = pred_like[0]
+    # if 'Predy [W]' in series_df.columns:
+    #     pred_top = 'Pred [W]'
+    # else:
+    #     # wybierz pierwszą kolumnę pred, która nie zawiera 'moc'
+    #     for c in pred_like:
+    #         if 'moc' not in c.lower():
+    #             pred_top = c
+    #             break
+    #     if pred_top is None and pred_like:
+    #         pred_top = pred_like[0]
 
     pred_bot = None
     if 'Moc Pred [W]' in series_df.columns:
