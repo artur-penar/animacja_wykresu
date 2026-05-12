@@ -175,7 +175,7 @@ class DualAnimator:
             ax_bot.set_title("Moc czynna obiektu: " + ", ".join(bottom_cols))
         ax_top.legend(loc="upper left")
         if bottom_cols:
-            ax_bot.legend(loc="upper left")
+            ax_bot.legend(loc="lower left")
 
         # Zakresy osi
         set_ax_ylim(ax_top, series_df, top_cols)
@@ -349,7 +349,9 @@ def main():
         blit=False,
         interval=ANIMATION_INTERVAL,
     )
-    ani.save("animacja.gif", writer="pillow", fps=12, dpi=100)  # GIF
+    # Zapis MP4 – ffmpeg jest teraz dostępny globalnie
+    ani.save("animacja.mp4", writer="ffmpeg", fps=12, dpi=150)
+    ani.save("animacja.gif", writer="pillow", fps=12, dpi=100)
 
     logger.info("Animacja gotowa – zamknij okno, aby zakończyć.")
     plt.show()
